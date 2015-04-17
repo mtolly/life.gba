@@ -9,15 +9,18 @@ void vid_vsync()
   while(REG_VCOUNT < 160);    // wait till VBlank
 }
 
+#define LIFE_ROWS 40
+#define LIFE_COLS 60
+
 int main()
 {
   REG_DISPCNT = DCNT_MODE3 | DCNT_BG2;
 
-  bool life1[80][120];
-  bool life2[80][120];
+  bool life1[LIFE_ROWS][LIFE_COLS];
+  bool life2[LIFE_ROWS][LIFE_COLS];
 
-  for (int r = 0; r < 80; r++) {
-    for (int c = 0; c < 120; c++) {
+  for (int r = 0; r < LIFE_ROWS; r++) {
+    for (int c = 0; c < LIFE_COLS; c++) {
       life1[r][c] = c & (r * 2);
     }
   }
@@ -25,21 +28,22 @@ int main()
   bool toggle = true;
   while (1) {
     vid_vsync();
-    for (int r = 0; r < 80; r++) {
-      for (int c = 0; c < 120; c++) {
+    for (int r = 0; r < LIFE_ROWS; r++) {
+      for (int c = 0; c < LIFE_COLS; c++) {
         COLOR color = (toggle ? life1 : life2)[r][c] ? RGB15(0, 0, 31) : RGB15(31, 31, 31);
-        m3_plot(c * 2, r * 2, color);
-        m3_plot(c * 2 + 1, r * 2, color);
-        m3_plot(c * 2, r * 2 + 1, color);
-        m3_plot(c * 2 + 1, r * 2 + 1, color);
+        for (int i = 0; i < 4; i++) {
+          for (int j = 0; j < 4; j++) {
+            m3_plot(c * 4 + i, r * 4 + j, color);
+          }
+        }
       }
     }
-    for (int r = 0; r < 80; r++) {
-      for (int c = 0; c < 120; c++) {
-        int r_p1 = r == 79 ? 0 : r + 1;
-        int r_m1 = r == 0 ? 79 : r - 1;
-        int c_p1 = c == 119 ? 0 : c + 1;
-        int c_m1 = c == 0 ? 119 : c - 1;
+    for (int r = 0; r < LIFE_ROWS; r++) {
+      for (int c = 0; c < LIFE_COLS; c++) {
+        int r_p1 = r == LIFE_ROWS - 1 ? 0 : r + 1;
+        int r_m1 = r == 0 ? LIFE_ROWS - 1 : r - 1;
+        int c_p1 = c == LIFE_COLS - 1 ? 0 : c + 1;
+        int c_m1 = c == 0 ? LIFE_COLS - 1 : c - 1;
         int neighbors
           = (toggle ? life1 : life2)[r   ][c_p1]
           + (toggle ? life1 : life2)[r   ][c_m1]
