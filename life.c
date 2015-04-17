@@ -24,6 +24,16 @@ int main()
 
   bool toggle = true;
   while (1) {
+    vid_vsync();
+    for (int r = 0; r < 80; r++) {
+      for (int c = 0; c < 120; c++) {
+        COLOR color = (toggle ? life1 : life2)[r][c] ? RGB15(0, 0, 31) : RGB15(31, 31, 31);
+        m3_plot(c * 2, r * 2, color);
+        m3_plot(c * 2 + 1, r * 2, color);
+        m3_plot(c * 2, r * 2 + 1, color);
+        m3_plot(c * 2 + 1, r * 2 + 1, color);
+      }
+    }
     for (int r = 0; r < 80; r++) {
       for (int c = 0; c < 120; c++) {
         int r_p1 = r == 79 ? 0 : r + 1;
@@ -46,16 +56,6 @@ int main()
         else {
           (toggle ? life2 : life1)[r][c] = neighbors == 3;
         }
-      }
-    }
-    vid_vsync();
-    for (int r = 0; r < 80; r++) {
-      for (int c = 0; c < 120; c++) {
-        COLOR color = (toggle ? life2 : life1)[r][c] ? RGB15(0, 0, 31) : RGB15(31, 31, 31);
-        m3_plot(c * 2, r * 2, color);
-        m3_plot(c * 2 + 1, r * 2, color);
-        m3_plot(c * 2, r * 2 + 1, color);
-        m3_plot(c * 2 + 1, r * 2 + 1, color);
       }
     }
     toggle = !toggle;
