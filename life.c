@@ -1,13 +1,5 @@
-#include "toolbox.h"
+#include <tonc.h>
 #include <stdbool.h>
-
-#define REG_VCOUNT *(volatile u16*)0x04000006
-
-void vid_vsync()
-{
-  while(REG_VCOUNT >= 160);   // wait till VDraw
-  while(REG_VCOUNT < 160);    // wait till VBlank
-}
 
 #define LIFE_ROWS 40
 #define LIFE_COLS 60
