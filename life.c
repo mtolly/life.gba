@@ -35,9 +35,14 @@ int main()
 
   for (int r = 0; r < LIFE_ROWS; r++) {
     for (int c = 0; c < LIFE_COLS; c++) {
-      life1[r][c] = r & (c * 2);
+      life1[r][c] = 0;
     }
   }
+  life1[10][11] = 1;
+  life1[10][12] = 1;
+  life1[11][10] = 1;
+  life1[11][11] = 1;
+  life1[12][11] = 1;
 
   bool toggle = true;
   while (1) {
