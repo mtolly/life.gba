@@ -45,8 +45,12 @@ int main()
   life1[12][11] = 1;
 
   bool toggle = true;
+
+  irq_init(NULL);
+  irq_add(II_VBLANK, NULL);
+
   while (1) {
-    vid_vsync();
+    VBlankIntrWait();
     for (int r = 0; r < LIFE_ROWS; r += 2) {
       for (int c = 0; c < LIFE_COLS; c += 2) {
         se_mem[30][(r * 32 + c) / 2]
