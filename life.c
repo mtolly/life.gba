@@ -25,9 +25,8 @@ int main()
   // Load map into SBB 30
   for (int i = 0; i < 32 * 32; i++) se_mem[30][i] = 0;
 
-  // set up BG0 for a 4bpp 64x32t map, using
-  //   using charblock 0 and screenblock 31
-  REG_BG0CNT = BG_CBB(0) | BG_SBB(30) | BG_4BPP | BG_REG_64x32;
+  // set up BG0 for a 4bpp 32x32t map, using charblock 0 and screenblock 30
+  REG_BG0CNT = BG_CBB(0) | BG_SBB(30) | BG_4BPP | BG_REG_32x32;
   REG_DISPCNT = DCNT_MODE0 | DCNT_BG0;
 
   bool life1[LIFE_ROWS][LIFE_COLS];
